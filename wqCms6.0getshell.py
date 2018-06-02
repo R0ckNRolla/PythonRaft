@@ -1,4 +1,4 @@
-#evilwebshell coding
+#coding by everybody
 #-*-coding:utf-8-*-
 import urllib2,os,time
 jieguo=[]
