@@ -4,6 +4,7 @@
 import socket
 import argparse
 import sys
+import threading
 def banner():
     print'''
  ____            _   ____                  
@@ -32,7 +33,6 @@ def portscan(hosts,port):
     if not port:
         for ports in default_port:
             try:
-
                 s=socket.socket()
                 s.settimeout(0.1)
                 s.connect((host,ports))
@@ -42,14 +42,14 @@ def portscan(hosts,port):
                 pass
     else:
         try:
-
             s=socket.socket()
             s.settimeout(0.1)
             s.connect((host,port))
             msg = "[IP] %s [PORT] %s Open" % (host,port)
             print msg
         except:
-            pass
+            msg = "[IP] %s [PORT] %s Close" %(host,port)
+            print msg
 
 def main():
      parse = argparse.ArgumentParser(description="A easy PortScan Script ")
@@ -62,9 +62,17 @@ def main():
      ip = args.host
      port = args.port
      banner()
-     portscan(ip,port)
+     t = threading.Thread(target=portscan,args=(ip,port))
+     t.start()
+     t.join()
+     #portscan(ip,port)
 if __name__ == '__main__':
     main()
+
+
+
+
+
 
 
 
